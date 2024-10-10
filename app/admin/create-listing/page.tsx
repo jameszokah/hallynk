@@ -97,8 +97,120 @@ export default function CreateListing() {
       <h1 className="text-3xl font-bold mb-8">Create New Listing</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-2xl">
-          {/* ... (previous form fields remain unchanged) */}
-          
+        <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea {...field} />
+                </FormControl>
+                <FormMessage />
+              
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Location</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Price (GHC)</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="roomSize"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Room Size</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormDescription>e.g., "1 in a room", "2 in a room", etc.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="amenities"
+            render={() => (
+              <FormItem>
+                <div className="mb-4">
+                  <FormLabel className="text-base">Amenities</FormLabel>
+                  <FormDescription>
+                    Select the amenities available in this accommodation.
+                  </FormDescription>
+                </div>
+                {amenitiesList.map((item) => (
+                  <FormField
+                    key={item.id}
+                    control={form.control}
+                    name="amenities"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={item.id}
+                          className="flex flex-row items-start space-x-3 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(item.id)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, item.id])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== item.id
+                                      )
+                                    )
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {item.label}
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    }}
+                  />
+                ))}
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="images"

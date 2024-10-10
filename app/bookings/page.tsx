@@ -2,8 +2,8 @@ import {prisma} from '@/lib/prisma'
 import { format } from 'date-fns'
 
 export default async function Bookings() {
-  // TODO: Get the actual user ID from the session
-  const userId = 'temp-user-id'
+
+  const userId = 'temp-user-id' // Replace with the actual user ID
 
   const bookings = await prisma.booking.findMany({
     where: { userId },
