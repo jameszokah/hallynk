@@ -1,19 +1,9 @@
 import { NextResponse } from 'next/server'
 import {prisma} from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/auth'
 
 
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id: string; // Add the id property
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-    };
-  }
-}
 export async function GET() {
   const session = await getServerSession(authOptions)
 
