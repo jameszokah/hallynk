@@ -1,0 +1,315 @@
+{
+    "objects": {
+      "users": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "identifier": true,
+            "default": {
+              "function": "autoincrement"
+            }
+          },
+          "name": {
+            "type": "string",
+            "sourceType": [
+              "VarChar",
+              100
+            ]
+          },
+          "email": {
+            "type": "string",
+            "sourceType": [
+              "VarChar",
+              100
+            ]
+          },
+          "phone_number": {
+            "type": "string",
+            "sourceType": [
+              "VarChar",
+              15
+            ],
+            "nullable": true
+          },
+          "preferences": {
+            "type": "string",
+            "sourceType": "Text",
+            "nullable": true
+          },
+          "bookings_ref": {
+            "type": "array",
+            "items": {
+              "$ref": "#/objects/bookings",
+              "relation": {
+                "name": "UsersBookings"
+              }
+            }
+          },
+          "payments_ref": {
+            "type": "array",
+            "items": {
+              "$ref": "#/objects/payments",
+              "relation": {
+                "name": "UsersPayments"
+              }
+            }
+          },
+          "reviews_ref": {
+            "type": "array",
+            "items": {
+              "$ref": "#/objects/reviews",
+              "relation": {
+                "name": "UsersReviews"
+              }
+            }
+          }
+        }
+      },
+      "hostels": {
+        "properties": {
+          "hostel_id": {
+            "type": "integer",
+            "identifier": true,
+            "default": {
+              "function": "autoincrement"
+            }
+          },
+          "name": {
+            "type": "string",
+            "sourceType": [
+              "VarChar",
+              100
+            ]
+          },
+          "location": {
+            "type": "string",
+            "sourceType": "Text",
+            "nullable": true
+          },
+          "room_types": {
+            "type": "string",
+            "sourceType": "Text"
+          },
+          "amenities": {
+            "type": "string",
+            "sourceType": "Text",
+            "nullable": true
+          },
+          "pricing": {
+            "type": "string",
+            "format": "decimal",
+            "sourceType": [
+              "Decimal",
+              8,
+              2
+            ]
+          },
+          "availability": {
+            "type": "boolean",
+            "default": {
+              "value": false
+            }
+          },
+          "bookings_ref": {
+            "type": "array",
+            "items": {
+              "$ref": "#/objects/bookings",
+              "relation": {
+                "name": "HostelsBookings"
+              }
+            }
+          },
+          "reviews_ref": {
+            "type": "array",
+            "items": {
+              "$ref": "#/objects/reviews",
+              "relation": {
+                "name": "HostelsReviews"
+              }
+            }
+          }
+        }
+      },
+      "bookings": {
+        "properties": {
+          "booking_id": {
+            "type": "integer",
+            "identifier": true,
+            "default": {
+              "function": "autoincrement"
+            }
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "hostel_id": {
+            "type": "integer"
+          },
+          "check_in": {
+            "type": "string",
+            "format": "date-time",
+            "sourceType": "Timestamptz"
+          },
+          "check_out": {
+            "type": "string",
+            "format": "date-time",
+            "sourceType": "Timestamptz"
+          },
+          "room_type": {
+            "type": "string",
+            "sourceType": "Text"
+          },
+          "price": {
+            "type": "string",
+            "format": "decimal",
+            "sourceType": [
+              "Decimal",
+              8,
+              2
+            ]
+          },
+          "status": {
+            "type": "string",
+            "sourceType": [
+              "VarChar",
+              50
+            ]
+          },
+          "users_ref": {
+            "$ref": "#/objects/users",
+            "relation": {
+              "name": "UsersBookings",
+              "attrKey": [
+                "user_id"
+              ],
+              "foreignAttrKey": [
+                "user_id"
+              ]
+            }
+          },
+          "hostels_ref": {
+            "$ref": "#/objects/hostels",
+            "relation": {
+              "name": "HostelsBookings",
+              "attrKey": [
+                "hostel_id"
+              ],
+              "foreignAttrKey": [
+                "hostel_id"
+              ]
+            }
+          }
+        }
+      },
+      "payments": {
+        "properties": {
+          "payment_id": {
+            "type": "integer",
+            "identifier": true,
+            "default": {
+              "function": "autoincrement"
+            }
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "amount": {
+            "type": "string",
+            "format": "decimal",
+            "sourceType": [
+              "Decimal",
+              8,
+              2
+            ]
+          },
+          "currency": {
+            "type": "string",
+            "sourceType": [
+              "VarChar",
+              10
+            ]
+          },
+          "payment_method": {
+            "type": "string",
+            "sourceType": [
+              "VarChar",
+              50
+            ]
+          },
+          "status": {
+            "type": "string",
+            "sourceType": [
+              "VarChar",
+              50
+            ]
+          },
+          "users_ref": {
+            "$ref": "#/objects/users",
+            "relation": {
+              "name": "UsersPayments",
+              "attrKey": [
+                "user_id"
+              ],
+              "foreignAttrKey": [
+                "user_id"
+              ]
+            }
+          }
+        }
+      },
+      "reviews": {
+        "properties": {
+          "review_id": {
+            "type": "integer",
+            "identifier": true,
+            "default": {
+              "function": "autoincrement"
+            }
+          },
+          "user_id": {
+            "type": "integer"
+          },
+          "hostel_id": {
+            "type": "integer"
+          },
+          "rating": {
+            "type": "integer"
+          },
+          "review_text": {
+            "type": "string",
+            "sourceType": "Text",
+            "nullable": true
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "sourceType": "Timestamptz"
+          },
+          "users_ref": {
+            "$ref": "#/objects/users",
+            "relation": {
+              "name": "UsersReviews",
+              "attrKey": [
+                "user_id"
+              ],
+              "foreignAttrKey": [
+                "user_id"
+              ]
+            }
+          },
+          "hostels_ref": {
+            "$ref": "#/objects/hostels",
+            "relation": {
+              "name": "HostelsReviews",
+              "attrKey": [
+                "hostel_id"
+              ],
+              "foreignAttrKey": [
+                "hostel_id"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
